@@ -82,7 +82,7 @@ function Piece({src,row_,column,position})
 
 function Move({ row, column, setMove,position,setPosition,color}) {  
   //This function check for no of click and if click was on a piece or an empty space and also clear
-  //move after two valid clicks  
+  //move after two valid clicks
   setMove(prevMove => {
       const cords = [...prevMove, [column, row]];
       if(cords.length==1)
@@ -105,7 +105,6 @@ function Move({ row, column, setMove,position,setPosition,color}) {
   }
   
 
-
 function MovetoPiece({cords,setPosition,color})
 {
   setPosition(prevPosition=>
@@ -116,7 +115,32 @@ function MovetoPiece({cords,setPosition,color})
     //Checks if we are trying to move piece to ints own position by checking tags
     if(prevPosition[cords[0][0]-1][cords[0][1]-1][0]==prevPosition[cords[1][0]-1][cords[1][1]-1][0])
     {return new_position;}
-    if(ValidMoves({prevPosition,cords,color}))
+    const piece_move = ValidMoves({prevPosition,cords,color});
+    if(piece_move=='castle')
+    {
+      let piece1_row = cords[0][0];
+      let piece1_column = cords[0][1];
+      let piece2_row = cords[1][0];
+      let piece2_column = cords[1][1];
+
+      // //Exchanging the tag of piece to the position to be moved to because when rendered
+      // // mapping happens and it takes row and columns value to check if image is 'tr' or not
+      // //and so if position in array not exchanged then it will get ignored
+    
+      new_position[piece2_row - 1][piece2_column - 1][0] = new_position[piece1_row - 1][piece1_column - 1][0];
+      new_position[piece1_row - 1][piece1_column - 1][0] = 'tr';
+      if(piece1_column>piece2_column)
+      {
+        new_position[piece2_row - 1][0][0] = 'tr';
+        new_position[piece2_row - 1][2][0] = new_position[piece2_row - 1][piece2_column - 1][0][0]+'r';
+      }
+      else
+      {
+        new_position[piece2_row - 1][7][0] = 'tr';
+        new_position[piece2_row - 1][5][0] = new_position[piece2_row - 1][piece2_column - 1][0][0]+'r';
+      }
+    }
+    else if(piece_move)
     {
       let piece1_row = cords[0][0];
       let piece1_column = cords[0][1];

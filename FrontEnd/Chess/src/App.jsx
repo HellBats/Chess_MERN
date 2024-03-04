@@ -9,7 +9,7 @@ function App() {
     <div>
       <TopBar/>
       <div className='Layout'>
-      <BoardGenerator color={false}></BoardGenerator>
+      <BoardGenerator color={true}></BoardGenerator>
       </div>
     </div>
   )
