@@ -1,5 +1,5 @@
 .container{
-    background-image: url("/src/assets/CheesBoard.png");
+    background-image: url("/src/assets/CheesBoardPurple.png");
     background-size: cover;
     background-repeat: no-repeat;
     max-width: 80vh;
@@ -40,6 +40,7 @@ body{
 {
     display: flex;
     align-items:left;
+    font-family: sans-serif;
 }
 #Icon
 {
