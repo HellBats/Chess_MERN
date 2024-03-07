@@ -2,11 +2,9 @@ import { useState,useEffect,useRef } from "react";
 import White from "../Functions/Racist";
 import Piece from "./Piece";
 import Move from "../Functions/MoveLogic";
-import { io } from "socket.io-client";
+import Connection from "../Functions/FirstConnection";
 
 
-const socket = io("https://back.zoanfruit.xyz");
-let id = '';
 // Color value true means white else black
 export default function BoardGenerator() {
   //This reference hook and function is used to detect postion of click and then row and column 
@@ -18,6 +16,8 @@ export default function BoardGenerator() {
   //Position state is used to maintain a state of Chess board
   const {position,setPosition} = White();
   const [color,setColor] = useState(false);
+  const [id,setId] = useState('');
+  const [turn,setTurn] = useState(color);
   const divRef = useRef(null);
   const handleClick = (event) => {
     const rect = divRef.current.getBoundingClientRect();
@@ -28,10 +28,10 @@ export default function BoardGenerator() {
       {
         const blockX = Math.floor(clickX/board_length*8+1);
         const blockY = Math.floor(clickY/board_length*8+1);
-        Move ({ row: blockX, column: blockY, move, setMove,position,setPosition,color,king_move,setKing_move,rook_move,setRook_move});
+        Move ({ row: blockX, column: blockY, move, setMove,position,setPosition,color,king_move,setKing_move,rook_move,setRook_move,turn,setTurn,id});
       }
   };
-  Connection();
+  Connection({id,setId,position,setPosition,color,setColor,turn,setTurn});
   //This hook detect clicks
   useEffect(() => {
     document.addEventListener("click", handleClick);
@@ -40,11 +40,15 @@ export default function BoardGenerator() {
     return () => {
       document.removeEventListener("click", handleClick);
     };
-  }, [position,color]);//This position depedency is here becauce we want that move function takes new position 
+  }, [position,color,turn]);//This position depedency is here becauce we want that move function takes new position 
   // instead old position 
 
    let key = 0;
     return (
+      <>
+      <div className="ScoreContainer">
+      <div className="ScoreBox">Hello</div>
+      </div>
       <div className="container" ref={divRef}>
          {
          position.map(row=>
@@ -65,33 +69,9 @@ export default function BoardGenerator() {
         )
             }
       </div>
+      <div className="ScoreContainer">
+      <div className="ScoreBox">Hello</div>
+      </div>
+      </>
     );
-  function Connection() {
-    useEffect(() => {
-      const handleConnect = () => {
-        socket.emit('welcome', '');
-      };
-      const handleTakeId = (msg) => {
-        id = msg;
-        socket.emit(id, color);
-        socket.on(id, handleSocketEvent);
-      };
-
-      const handleSocketEvent = (res) => {
-        setPosition(res[0]);
-        setColor(res[1]);
-      };
-
-      // Attach event listeners
-      socket.on('take id', handleTakeId);
-      socket.on('connect', handleConnect);
-
-      // Cleanup logic
-      return () => {
-        socket.off('take id', handleTakeId);
-        socket.off(id, handleSocketEvent);
-        socket.off('connect', handleConnect);
-      };
-    }, [id]);
-  }
   }

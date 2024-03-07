@@ -12,10 +12,16 @@
 
 .Layout{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+.ScoreContainer
+{
+    padding-right: 70vh;
+    display: flex;
+}
 
 .piece
 {
@@ -42,6 +48,13 @@ body{
     align-items:left;
     font-family: sans-serif;
 }
+/* .ScoreBox
+{
+    font-family: sans-serif;
+    background-color: bisque;
+    font-size: 30px;
+    margin: 10px;
+} */
 #Icon
 {
     width:150px;
