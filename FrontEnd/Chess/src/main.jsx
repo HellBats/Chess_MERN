@@ -1,8 +1,30 @@
 
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import './App.css'
+import * as ReactDOM from "react-dom/client";
+import Home from './Routes/HomePage'
+import Play from './Routes/PlayOn';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <App />
-)
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home></Home>
+  },
+  {
+    path:'play',
+    element: <Play></Play>
+  },
+]);
+
+
+
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+    <RouterProvider router={router} />
+);
+

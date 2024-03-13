@@ -15,7 +15,7 @@ export default function Pawn({piece,piece_to,rank,file,rank_to,file_to,color})
         }
         return false;
     }
-    if(rank==7 || rank==2)
+    if(rank==7)
     {
         if(rank_to==rank+(color?1:-1))
         {

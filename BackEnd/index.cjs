@@ -5,6 +5,9 @@ const express = require("express");
 const {Server} = require('socket.io');
 const {Color} = require('./ColorPicker.cjs')
 const {Rotate} = require('./BoardRotater.cjs')
+const { GenerateId, Push, players,rooms,Pop} = require("./Functions.cjs");
+const cors = require('cors');
+
 
 const app = express();
 const server = http.createServer(app);
@@ -17,35 +20,42 @@ const io = new Server(server,
 let connections =  0;
 
 
+app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.get('/getid',(req,res)=>
+{
+    let PlayerId = GenerateId(6);
+    Push(players,PlayerId);
+    res.json({playid:PlayerId});
+});
+
+
 io.on('connection',(socket)=>
 {
-    const id = "lundlele"
     console.log('A user connected');
-    socket.on('welcome',()=>
+    socket.on(players[connections],()=>
     {
-        if(connections<2)
+        if(connections%2==0)
         {
-            connections++;
-            socket.emit('take id',id);
+            Push(rooms,GenerateId(2));
         }
-    })
-    socket.on(id,(msg)=>
-    {
-        socket.emit(id,connections==1?[Color(true),true,true]:[Color(false),false,true]);
-    })
-    socket.on(id+'move',({turn,position})=>
-    { 
-        console.log('message came');
-        socket.broadcast.emit(id+'move',[turn,Rotate({position})]);
+        connections++;
+        socket.emit(players[connections-1],connections==1?[rooms[0],Color(true),true,true]:[rooms[0],Color(false),false,true]);
+        console.log(rooms[0]+players[connections-1]);
+        socket.on(rooms[0],({turn,new_position:position})=>
+        { 
+            console.log(rooms[0]);
+            socket.broadcast.emit(rooms[0],Rotate({position}));
+        })
     })
     socket.on('disconnect',()=>
     {
         console.log(connections);
-        connections--;
+        Pop(players);
+        if(connections>0)connections--;
     })
 });
 

@@ -1,60 +1,48 @@
 import { io } from "socket.io-client";
-import {useEffect, useState } from "react";
+import {useEffect } from "react";
 
 const socket = io("https://back.zoanfruit.xyz");
 
-export default function Connection({id,setId,position,setPosition,color,setColor,turn,setTurn}) {
-  const [InitialMount,setMount] = useState(0);
+export function Connection({id,setId,setPosition,setColor,setTurn,room,setRoom}) {
     useEffect(() => {
-      const handleConnect = () => {
-        socket.emit('welcome', '');
-      };
-      const handleTakeId = (msg) => {
-        setId(()=>{
-        socket.emit(msg, color);
-        socket.on(msg, handleSocketEvent);
-        return msg
-        })
-      };
-
-      const handleSocketEvent = (res) => {
-        setPosition(res[0]);
-        setColor(res[1]);
-        setTurn(res[2]);
-      };
-
-      const handleTurns = (res) => {
-        console.log("Done!");
-        setPosition(res[1]);
-        setTurn(res[0]);
-      }
-
 
       // Attach event listeners
-      socket.on('take id', handleTakeId);
-      socket.on('connect', handleConnect);
-      socket.on(id+'move',handleTurns);
+        socket.on(id,(res)=>{
+          setRoom(res[0]);
+          setPosition(res[1]);
+          setColor(res[2]);
+          setTurn(res[3]);
+
+          socket.on(res[0],(res1)=>
+          {
+            setPosition(res1);
+            setTurn(prev=>!prev);
+          })
+      })
       // Cleanup logic
       return () => {
-        socket.off('take id', handleTakeId);
-        socket.off(id, handleSocketEvent);
-        socket.off('connect', handleConnect);
+        socket.off(id);
+        socket.off(room);
       };
-    }, [id,turn]);
+    }, [id,room]);
     useEffect(()=>
     {
-      if(InitialMount<(color?2:3))
-      {
-        console.log(InitialMount);
-        setMount(InitialMount+1);
-        return;
-      }
-      setMount(color?1:2);
-      Turn({id,turn,position})
-    },[position])
+      socket.emit(id,'');
+    },[id])
+    useEffect(()=>
+    {
+      GetId({setId})
+    },[]);
   }
 
-  export function Turn({id,turn,position})
+  async function GetId({setId})
   {
-    socket.emit(id+'move',{turn,position});
+    const response = await fetch('https://back.zoanfruit.xyz/getid');
+    const json = await response.json();
+    setId(json.playid);
+  }
+
+  export function Turn({room,turn,new_position})
+  {
+    socket.emit(room,{turn,new_position});
   }

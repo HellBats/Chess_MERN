@@ -7,12 +7,13 @@
     grid-template-rows: repeat(8,1fr);
     grid-template-columns: repeat(8,1fr);
     object-fit: cover;
+    border-radius: 20px;
 }
 
 
 .Layout{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
@@ -22,7 +23,33 @@
     padding-right: 70vh;
     display: flex;
 }
-
+.MessageBoard
+{
+    width:500px;
+    height:500px;
+    background-color: #8476BA;
+    border-radius: 20px;
+    margin-left: 60px;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.MessageBoardBottom
+{
+    display:flex;
+}
+.MessageBox
+{
+    width: 350px;
+    height:30px;
+    margin-left: 20px;
+    margin-top: 25px;
+    margin-bottom:10px;
+    border-radius: 20px;
+    padding-left:20px;
+    padding-top: 10px;
+    border: 0px;
+    background-color: white;
+}
 .piece
 {
     max-width: 100%;
@@ -38,32 +65,66 @@
 }
 
 body{
-    background-color: black;
+    background-color: #3D234E;
 }
 
 
 .TopBar
 {
     display: flex;
-    align-items:left;
-    font-family: sans-serif;
+    justify-content: space-between;
+    font-family:sans-serif;
 }
-/* .ScoreBox
+.IconBar
 {
-    font-family: sans-serif;
-    background-color: bisque;
-    font-size: 30px;
-    margin: 10px;
-} */
-#Icon
-{
-    width:150px;
-    height:100px;
-
+    display: inline-flex;
 }
-#Heading
+.Icon
 {
+    max-width: 65px;
+    max-height: 65px;
+}
+.Heading
+{
+    margin: 0px;
     font-size: 40px;
-    padding-top: 35px;
+    padding-left: 20px;
+    padding-top: 20px;
     color: white;
+}
+.topbar-text
+{
+    padding-top: 35px;
+    margin: 10px;
+    font-size: 20px;
+    color: white;
+}
+.button
+{
+    border-radius: 20px;
+    margin:10px;
+    margin-top:25px;
+    padding-top: 10px;
+    padding-left: 20px;
+    width: 70px;
+    height: 30px;
+    background-color: #AED2FF;
+}
+
+.RightCard
+{
+    color: white;
+    margin:20px;
+    font-size: 30px;
+}
+
+.RightCardButton
+{
+    height: 70px;
+    width: 150px;
+    margin-left: 200px;border-radius: 20px;
+    background-color: greenyellow;
+    font-size: medium;
+    font-family: sans-serif;
+    border: 0px;
 }
