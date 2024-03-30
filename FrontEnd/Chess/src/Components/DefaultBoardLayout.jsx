@@ -1,93 +1,92 @@
-import { useState,useEffect,useRef } from "react";
-import White from "../Functions/Racist";
+import {useRef} from "react";
 import Piece from "./Piece";
-import Move from "../Functions/MoveLogic";
 import {Connection} from '../Functions/FirstConnection'
 import { KingsAndRooks } from "../Functions/PieceLogic/CastlingLogic";
-import CheckMate from "../Functions/CheckMate";
-import Check from "../Functions/PieceLogic/Check";
+import {ControlOpTimer, ControlTimer} from "../Functions/Clocks"
+import useSound from 'use-sound'
+import audio from '../assets/move-self.mp3'
+import HighlightUpdate from "../Functions/HighlightMoves";
+import { Promotion, usePawnFroms } from "../Functions/Promotion";
+import {GameConditions} from "../Functions/GameConditons";
+import { useRecoilValue,useSetRecoilState, useRecoilState } from "recoil";
+import { mytime, optime } from "../Store/Atoms/TimeAtoms";
+import HandleClicks from "./HandleClicks";
+import { highlight_move, pawnform,turn,promotions,Id, gameover, gameovermessage } from "../Store/Atoms/UtilityAtoms";
+import { positions,pawn_cords} from "../Store/Atoms/PositionsAndCordsAtoms";
+import GameOver from "./GameOver";
+import UserPanel from "./UserPanel";
 
 
 // Color value true means white else black
 export default function BoardGenerator() {
-  //This reference hook and function is used to detect postion of click and then row and column 
-  //are calculated and then sends to Move Function for further processing
-  // Move State is used to keep check of clicks happening on boards
-  const [move,setMove] = useState([]);
-  const [king_move,setKing_move] = useState([false,false,0]);
-  const [rook_move,setRook_move] = useState([[false,false],[false,false]]);
-  //Position state is used to maintain a state of Chess board
-  const {position,setPosition} = White();
-  const [color,setColor] = useState(false);
-  const [id,setId] = useState('');
-  const [room,setRoom] = useState('');
-  const [turn,setTurn] = useState(color);
-  const [check,setCheck] = useState(false);
+  const my_time = useRecoilValue(mytime);
+  const op_time = useRecoilValue(optime);
+  const pawnforms = useRecoilValue(pawnform);
+  const highlight_moves = useRecoilValue(highlight_move);
+  const setTurn = useSetRecoilState(turn);
+  const [position,setPosition] = useRecoilState(positions);
+  const [pawn_cord,setPawnCords] = useRecoilState(pawn_cords);
+  const setPawnsForms = useSetRecoilState(pawnform);
+  const setPromotion = useSetRecoilState(promotions);
+  const id = useRecoilValue(Id);
+  const setGameOver = useSetRecoilState(gameover); 
+  const setGameOverMessage = useSetRecoilState(gameovermessage);
   const divRef = useRef(null);
+  const [move_audio] = useSound(audio);
 
-  const handleClick = (event) => {
-    const rect = divRef.current.getBoundingClientRect();
-      const clickX = event.clientX-rect.left;
-      const clickY = event.clientY-rect.top;
-      const board_length = rect.right-rect.left;
-      if(clickX>0 && clickX<board_length && clickY>0 && clickY<board_length)
-      {
-        const blockX = Math.floor(clickX/board_length*8+1);
-        const blockY = Math.floor(clickY/board_length*8+1);
-        Move ({ row: blockX, column: blockY, move, setMove,position,setPosition,
-          color,king_move,setKing_move,rook_move,setRook_move,turn,setTurn,id,room,
-          check,setCheck});
-      }
-  };
-  Connection({id,setId,position,setPosition,color,setColor,turn,setTurn,room,setRoom});
-  //This hook detect clicks
-  useEffect(() => {
-    document.addEventListener("click", handleClick);
+  Connection();
+  HandleClicks({divRef});
+  GameConditions({setGameOver,setGameOverMessage});
+  HighlightUpdate({move_audio})
+  KingsAndRooks();
+  usePawnFroms();
 
-    // Cleanup the event listener on component unmount
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [position,color,turn,check]);//This position depedency is here becauce we want that move function takes new position 
-  // instead old position 
+  ControlTimer();
+  ControlOpTimer();
 
-  useEffect(()=>
-  {
-    setCheck(Check(position,color));
-    if(check)
-    {
-      if(!CheckMate({position,color}))
-      {
-        console.log('Game Over');
-      }
-    }
-  },[position,color,check])
-
-  KingsAndRooks({position,king_move,setKing_move,setRook_move,color})
    let key = 0;
     return (
       <>
-      <div className="container" ref={divRef}>
-         {
-         position.map(row=>
-            row.map((box)=>
-              {
-                //This rank and column use values from position and so exchange of tags is necessary
-                let rank = box[1];
-                let column = box[2];
-                key++;
-                if(position[rank-1][column-1][0]!='tr')
-                {
-                  let src = "src/assets/"+position[rank-1][column-1][0]+".png";
-                  return <Piece  key={key} src={src}
-                  row_={rank} column={column} position={position}></Piece>
+      <div className="GameBoard">
+        <GameOver></GameOver>
+        <div>
+        <UserPanel my_time={op_time}></UserPanel>
+          <div className="container" ref={divRef}>
+            
+            {highlight_moves.map(high=>
+            {
+              return <div className="hilight_box" key={high[0]+high[1]} style={{gridRow:high[0], gridColumn:high[1]}}></div>
+            })}
+            
+            {
+            position.map(row=>
+                row.map((box)=>
+                  {
+                    //This rank and column use values from position and so exchange of tags is necessary
+                    let rank = box[1];
+                    let column = box[2];
+                    key++;
+                    if(position[rank-1][column-1][0]!='tr')
+                    {
+                      let src = "src/assets/"+position[rank-1][column-1][0]+".png";
+                      return <Piece  key={key} src={src}
+                      row_={rank} column={column} position={position}></Piece>
+                      }
                   }
-              }
+                )
             )
-        )
             }
-      </div>
+            </div>
+            <UserPanel my_time={my_time} ></UserPanel>
+          </div>
+            <div className="Promotion">
+              {pawnforms.map(pawns =>
+              {  
+                return <img src={'src/assets/'+pawns+'.png'} key={pawns} onClick={()=>Promotion({pawns,
+                setTurn,position,setPosition,pawn_cord,setPawnCords,setPawnsForms,setPromotion,id})}></img>
+              })}
+          </div>
+        </div>
       </>
     );
   }
-

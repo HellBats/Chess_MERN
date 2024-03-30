@@ -8,17 +8,30 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { ErrorPage } from './Components/NotFoundPage';
+import { RecoilRoot } from 'recoil';
+import React from 'react';
+
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>
+    element: <Home></Home>,
+    errorElement: <ErrorPage></ErrorPage>
   },
   {
     path:'play',
-    element: <Play></Play>
+    element: <RecoilRoot>
+        <React.Suspense>
+          <Play></Play>
+          </React.Suspense>
+      </RecoilRoot>
   },
+  {
+    path:"login",
+    element:<div></div>
+  }
 ]);
 
 

@@ -1,4 +1,6 @@
-export default function King({prevPosition,piece,piece_to,rank,file,rank_to,file_to,color,rook_move})
+
+
+export default function King({prevPosition,piece,piece_to,rank,file,rank_to,file_to,color,rook_moves,king_move})
 {
     if((Math.abs(rank-rank_to)==1) && (Math.abs(file-file_to)==1))
     {
@@ -26,7 +28,7 @@ export default function King({prevPosition,piece,piece_to,rank,file,rank_to,file
             {
                 if(file_to==2)
                 {
-                    if(rook_move[color?0:1][0]){return false;}
+                    if(rook_moves[color?0:1][0] || king_move[color?0:1]){return false;}
                     for(let i=file_to;i<file;i++)
                     {
                         if(prevPosition[rank-1][i-1][0]!='tr'){return false;}
@@ -34,7 +36,7 @@ export default function King({prevPosition,piece,piece_to,rank,file,rank_to,file
                 }
                 else if(file_to==7)
                 {
-                    if(rook_move[color?0:1][1]){return false;}
+                    if(rook_moves[color?0:1][1] || king_move[color?0:1]){return false;}
                     for(let i=file+1;i<=file_to;i++)
                     {
                         if(prevPosition[rank-1][i-1][0]!='tr'){return false;}

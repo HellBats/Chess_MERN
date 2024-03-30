@@ -31,37 +31,37 @@ function PieceValidMoves(position, pieces_cords, piece_color, color) {
         let file = piece[2];
         if (piece[0] == piece_color + 'p') {
             if (PawnMoves({ position, rank, file, color })) {
-                console.log("true");
+                console.log('pawns');
                 return true;
             }
         }
         else if (piece[0] == piece_color + 'n') {
             if (KnightMoves({ position, rank, file, color })) {
-                console.log("true");
+                console.log('knight');
                 return true;
             }
         }
         else if (piece[0] == piece_color + 'b') {
             if (BishopMoves({ position, rank, file, color })) {
-                console.log("true");
+                console.log('bishop');
                 return true;
             }
         }
         else if (piece[0] == piece_color + 'r') {
             if (RookMoves({ position, rank, file, color })) {
-                console.log("true");
+                console.log('rook')
                 return true;
             }
         }
         else if (piece[0] == piece_color + 'q') {
             if (QueenMoves({ position, rank, file, color })) {
-                console.log("true");
+                console.log('queen');
                 return true;
             }
         }
         else if (piece[0] == piece_color + 'k') {
             if (KingMoves({ position, rank, file, color })) {
-                console.log("true");
+                console.log('king')
                 return true;
             }
         }

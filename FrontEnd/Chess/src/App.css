@@ -1,15 +1,24 @@
+@font-face {
+    font-family: bubblegum;
+    src: url(./assets/Themundayfreeversion-Regular.ttf);
+}
+
+@font-face {
+    font-family: rock_pile;
+    src: url(./assets/Jackpot.ttf);
+}
 .container{
-    background-image: url("/src/assets/CheesBoardPurple.png");
+    background-image: url('./assets/CheesBoardPurple.png');
     background-size: cover;
     background-repeat: no-repeat;
-    max-width: 80vh;
+    max-width: 70vh;
     display:grid;
     grid-template-rows: repeat(8,1fr);
     grid-template-columns: repeat(8,1fr);
     object-fit: cover;
     border-radius: 20px;
 }
-
+                                                                          
 
 .Layout{
     display: flex;
@@ -18,38 +27,31 @@
     justify-content: center;
 }
 
+.GameBoard
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+}
+
+
+.Clock
+{
+    background: rgba(255, 255, 255,1);
+    backdrop-filter: blur(10px);
+    margin: 15px;
+    width: 100px;
+    font-size: large;
+    border-radius: 5px;
+}
+
 .ScoreContainer
 {
     padding-right: 70vh;
     display: flex;
 }
-.MessageBoard
-{
-    width:500px;
-    height:500px;
-    background-color: #8476BA;
-    border-radius: 20px;
-    margin-left: 60px;
-    display: flex;
-    flex-direction: column-reverse;
-}
-.MessageBoardBottom
-{
-    display:flex;
-}
-.MessageBox
-{
-    width: 350px;
-    height:30px;
-    margin-left: 20px;
-    margin-top: 25px;
-    margin-bottom:10px;
-    border-radius: 20px;
-    padding-left:20px;
-    padding-top: 10px;
-    border: 0px;
-    background-color: white;
-}
+
 .piece
 {
     max-width: 100%;
@@ -57,15 +59,11 @@
     object-fit: cover;
 }
 
-.empty
-{
-    max-height:100%;
-    max-width:100%;
-    object-fit: cover;
-}
 
 body{
-    background-color: #3D234E;
+    background-color: #312e2b;
+    margin: 0px;
+    font-family: bubblegum;
 }
 
 
@@ -73,32 +71,45 @@ body{
 {
     display: flex;
     justify-content: space-between;
-    font-family:sans-serif;
+    background: rgba(255, 255, 255, .2);
+    backdrop-filter: blur(10px);
+    font-family: rock_pile;
+    margin-bottom: 20px;
 }
+
+
 .IconBar
 {
     display: inline-flex;
 }
+
+
 .Icon
 {
     max-width: 65px;
     max-height: 65px;
 }
+
+
 .Heading
 {
     margin: 0px;
-    font-size: 40px;
+    font-size: 20px;
     padding-left: 20px;
     padding-top: 20px;
     color: white;
 }
+
+
 .topbar-text
 {
     padding-top: 35px;
     margin: 10px;
-    font-size: 20px;
+    font-size: 10px;
     color: white;
 }
+
+
 .button
 {
     border-radius: 20px;
@@ -109,22 +120,109 @@ body{
     width: 70px;
     height: 30px;
     background-color: #AED2FF;
+    font-size: 10px;
 }
+
 
 .RightCard
 {
+    background: rgba(5, 5, 5, .1);
+    backdrop-filter: blur(10px);
     color: white;
     margin:20px;
-    font-size: 30px;
+    font-size: 25px;
+    border-radius: 20px;
+    width: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
+
 
 .RightCardButton
 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 70px;
-    width: 150px;
-    margin-left: 200px;border-radius: 20px;
     background-color: greenyellow;
+    color:white;
     font-size: medium;
     font-family: sans-serif;
+    margin-bottom: 20px;
+    width:20vh;
     border: 0px;
+    border-radius: 18px;
+}
+
+
+.Promotion
+{
+    display:flex;
+    flex-direction: column;
+    width: 8vh;
+}
+
+.hilight_box
+{
+    background: rgba(239, 189, 155, 0.773);
+    background-size: cover;
+    object-fit: cover;
+}
+
+.TimeFrames
+{
+    background: rgba(255, 255, 255, .2);
+    backdrop-filter: blur(10px);
+    color: white;
+    margin: 5px;
+    border-radius: 7px;
+    width: 100px;
+    text-align: center;
+    font-size: 20px;
+}
+.TimeFrame
+{
+    background: rgba(255, 255, 255, .2);
+    backdrop-filter: blur(10px);
+    color: white;
+    margin: 5px;
+    border-radius: 7px;
+    width: 250px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+.TimeFramesPanel
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile
+{
+    display: flex;
+    justify-content: flex-start;
+    color: white;
+    padding: 4px;
+}
+.profile-image
+{
+    height: 40px;
+    width: 40px;
+    margin-right: 4px;
+}
+.UserPanel
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.EndGame
+{
+    position:absolute;
+    z-index: 1000;
+    margin-top: 300px;
+    margin-left: 300px;
+    background: rgba(255, 255, 255,1);
 }

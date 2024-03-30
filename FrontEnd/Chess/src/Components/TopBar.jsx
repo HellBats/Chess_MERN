@@ -1,7 +1,7 @@
 export default function TopBar()
 {
   return (
-    <div className='TopBar'>
+    <header className='TopBar'>
         <div className="IconBar">
           <img className="Icon" src="/src/assets/gomu-gomu.png"></img>
           <div className="Heading">ZoanFruit</div>
@@ -12,9 +12,9 @@ export default function TopBar()
               <div>Login</div>
             </div>
             <div className="button">
-              <div>Sign-up</div>
+              <div>SignUp</div>
             </div>
           </div>
-      </div>
+      </header>
   )
 }

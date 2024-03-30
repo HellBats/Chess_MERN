@@ -2,16 +2,15 @@ import Check from "./PieceLogic/Check";
 
 export function PawnMoves({position,rank,file,color})
 {
-    let possible_ranks = [rank+1];
-    let possible_files = [file,file+1,file-1];
+    const  possible_ranks = [rank-1];
+    const possible_files = [file,file+1,file-1];
 
-    possible_files = possible_files.filter(file=>{file>0&&file<9});
-    possible_ranks = possible_ranks.filter(rank=>{rank>0&&rank<9});
-    for(let i of possible_ranks)
+    const valid_files = possible_files.filter(value=>(value>0 && value<9));
+    const valid_ranks = possible_ranks.filter(value=>(value>0 && value<9));
+    for(let i of valid_ranks)
     {
-        for(let j of possible_files)
+        for(let j of valid_files)
         {
-            if(position[i-1][j-1][0][0]==(color?'w':'b')){break;}
             let new_position = JSON.parse(JSON.stringify(position));
             new_position[i- 1][j- 1][0] = new_position[rank - 1][file - 1][0];
             new_position[rank-1][file- 1][0] = 'tr';
@@ -225,7 +224,8 @@ export function KingMoves({position,rank,file,color})
     {
         for(let j of valid_files)
         {
-            if(position[i-1][j-1][0][0]==(color?'w':'b')){break;}
+            if(position[i-1][j-1][0][0]==(color?'w':'b')) continue;
+            console.log(i,j);
             let new_position = JSON.parse(JSON.stringify(position));
             new_position[i- 1][j- 1][0] = new_position[rank - 1][file - 1][0];
             new_position[rank-1][file- 1][0] = 'tr';

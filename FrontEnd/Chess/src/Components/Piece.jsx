@@ -1,4 +1,6 @@
-export default function Piece({src,row_,column,position})
+import { memo } from "react";
+
+function Piece({src,row_,column,position})
   {
     //This is the Piece Component that renders according to position state
     const pieceType = position[row_ - 1][column - 1][0];
@@ -17,3 +19,5 @@ export default function Piece({src,row_,column,position})
       return null; // or render an empty component, depending on your preference
     }
   }
+
+  export default memo(Piece);
