@@ -7,7 +7,7 @@ function Piece({src,row_,column,position})
     if (pieceType !== 'tr' && pieceType !== undefined) {
       return (
         <img
-          className="piece"
+          className="object-cover z-2"
           src={src}
           style={{
             gridRow: position[row_ - 1][column - 1][1],

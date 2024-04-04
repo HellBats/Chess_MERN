@@ -18,7 +18,7 @@ export function ControlTimer()
             setMytime(clock_times);
         }
     
-        const timeoutId = setTimeout(() => {
+        const timeoutId = setInterval(() => {
             updateClockTime(turn_,color_,mytime_,setMytime,id,setGameOver,setGameOverMessage);
         }, 1000);
     
@@ -41,7 +41,7 @@ export function ControlOpTimer()
             setOptime(clock_times);
         }
     
-        const timeoutId = setTimeout(() => {
+        const timeoutId = setInterval(() => {
             updateOpClockTime(turn_,color_,optime_,setOptime,id,setGameOver,setGameOverMessage);
         }, 1000);
     
@@ -62,7 +62,7 @@ function updateClockTime(turn,color,mytime,setMytime,id,setGameOver,setGameOverM
     else {
         new_time[1] -= 1;
     }
-    if(new_time==[0,0]) 
+    if(new_time[0]==0 && new_time[1]==0) 
     {
         GameOverEvent({id,msg:'You Won'});
         setGameOver(true);
@@ -83,7 +83,7 @@ function updateOpClockTime(turn,color,optime,setOptime,id,setGameOver,setGameOve
     else {
         new_time[1] -= 1;
     }
-    if(new_time==[0,0]) 
+    if(new_time[0]==0 && new_time[1]==0) 
     {
         GameOverEvent({id,msg:'You Lost'});
         setGameOver(true);

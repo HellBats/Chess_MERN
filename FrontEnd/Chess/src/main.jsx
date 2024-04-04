@@ -1,5 +1,5 @@
 
-import './App.css'
+import './Web.css'
 import * as ReactDOM from "react-dom/client";
 import Home from './Routes/HomePage'
 import Play from './Routes/PlayOn';

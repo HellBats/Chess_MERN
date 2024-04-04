@@ -1,7 +1,8 @@
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import home_image from '../assets/HomePageImage.png'
 import { clock_time, time_frames } from '../Store/Atoms/TimeAtoms';
 import { start_game } from '../Store/Atoms/UtilityAtoms';
+import { ShowTimeFrames,HideTimeFrames,StartGame } from '../Functions/TimeFrames';
+
 
 export default function PlayControl()
 {
@@ -10,42 +11,28 @@ export default function PlayControl()
     const setStartGame = useSetRecoilState(start_game);
     return (
         <>
-        <img src={home_image}></img>
-        <div className='RightCard'>
-            <div className='Time' >
-                <div className='TimeFrame' onClick={()=>ShowTimeFrames({timeframes,setTimeFrame})}>
+        {/* <div className=' w-96 h-96 mt-20 ml-4 bg-[url("src/assets/CheesBoardPurple.png")] bg-cover'></div> */}
+        <div className='flex justify-center mt-40'>
+            <div className='w-80'>
+                <div className='text-center bg-black opacity-30 text-white p-2 backdrop-blur-sm rounded-md' onClick={()=>ShowTimeFrames({timeframes,setTimeFrame})}>
                     {clock_time_[0]+'min'}</div>
                 {timeframes.map(timeframe=>
                 {
-                    return <div className='TimeFramesPanel' key={timeframe[0]}>
-                        <div className='TimeFrames'  onClick=
+                    return <div className='w-80 flex flex-row' key={timeframe[0]}>
+                        <div>Bullet</div>
+                        <div className='w-32 text-center bg-black opacity-30 text-white p-2 backdrop-blur-sm m-2
+                        rounded-md'  onClick=
                         {()=>HideTimeFrames({timeframe,number:0,SetClockTime})}>
                             {timeframe[0]+'min'}</div>
-                        <div className='TimeFrames'  onClick=
+                        <div className='w-32 text-center bg-black opacity-30 text-white p-2 backdrop-blur-sm m-2
+                        rounded-md'  onClick=
                         {()=>HideTimeFrames({timeframe,number:1,SetClockTime})}>
                             {timeframe[1]+'min'}</div>    
                     </div>
                 })}
-                <div className="RightCardButton" onClick={()=>StartGame({setStartGame})}><h3>Play</h3></div>
+                <div className='text-center' onClick={()=>StartGame({setStartGame})}><h3>Play</h3></div>
             </div>
         </div>
         </>
     )
-}
-
-function ShowTimeFrames({timeframes,setTimeFrame})
-{
-    if(!timeframes.length) setTimeFrame([[1,2],[5,10],[15,30]]);
-    else setTimeFrame([]);
-}
-
-
-function HideTimeFrames({timeframe,SetClockTime,number})
-{
-    SetClockTime([timeframe[number],0]);
-}
-
-function StartGame({setStartGame})
-{
-    setStartGame(true);
 }

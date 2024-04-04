@@ -7,7 +7,7 @@ export default function GameOver()
     const game_over_message = useRecoilValue(gameovermessage);
     if(game_over)
     {
-        return (<div className="EndGame">
+        return (<div className="absolute z-5 ml-40 mt-40 bg-white p-2 md:ml-96">
             {game_over_message}
         </div>)
     }
