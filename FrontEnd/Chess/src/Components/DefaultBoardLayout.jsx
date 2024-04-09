@@ -2,7 +2,6 @@ import {useRef} from "react";
 import Piece from "./Piece";
 import {Connection} from '../Functions/FirstConnection'
 import { KingsAndRooks } from "../Functions/PieceLogic/CastlingLogic";
-import {ControlOpTimer, ControlTimer} from "../Functions/Clocks"
 import useSound from 'use-sound'
 import audio from '../assets/move-self.mp3'
 import HighlightUpdate from "../Functions/HighlightMoves";
@@ -15,6 +14,7 @@ import { highlight_move, pawnform,turn,promotions,Id, gameover, gameovermessage 
 import { positions,pawn_cords} from "../Store/Atoms/PositionsAndCordsAtoms";
 import GameOver from "./GameOver";
 import UserPanel from "./UserPanel";
+import {ControlOpTimer, ControlTimer} from "../Functions/Clocks.jsx"
 
 // Color value true means white else black
 export default function BoardGenerator() {
@@ -34,14 +34,13 @@ export default function BoardGenerator() {
   const [move_audio] = useSound(audio);
 
   Connection();
+  ControlTimer();
+  ControlOpTimer();
   HandleClicks({divRef});
   GameConditions({setGameOver,setGameOverMessage});
   HighlightUpdate({move_audio})
   KingsAndRooks();
   usePawnFroms();
-
-  ControlTimer();
-  ControlOpTimer();
 
    let key = 0;
     return (
@@ -53,11 +52,11 @@ export default function BoardGenerator() {
           </div>
           <div className="flex justify-center">
             <div className="bg-[url('src/assets/CheesBoardPurple.png')] w-96 h-96 ml-3 bg-cover
-            grid grid-cols-8 grid-rows-8 object-cover md:w-2/5 md:h-2/5 relative" ref={divRef}>
+            grid grid-cols-8 grid-rows-8 object-cover md:w-2/5 md:h-2/5 relative rounded-md" ref={divRef}>
                 <GameOver></GameOver>
                 {highlight_moves.map(high=>
                 {
-                  return <div className="bg-orange-400 opacity-50 object-cover z-1" 
+                  return <div className="bg-orange-300 object-cover z-1" 
                   key={high[0]+high[1]} style={{gridRow:high[0], gridColumn:high[1]}}></div>
                 })}
                 
@@ -80,7 +79,7 @@ export default function BoardGenerator() {
                   )
                   }
               </div>
-              <div className="Promotion">
+              <div className="md:w-16 ">
                   {pawnforms.map(pawns =>
                   {  
                     return <img src={'src/assets/'+pawns+'.png'} key={pawns} onClick={()=>Promotion({pawns,

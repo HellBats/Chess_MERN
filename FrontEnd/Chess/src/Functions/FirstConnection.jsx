@@ -3,8 +3,7 @@ import {useEffect} from "react";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { Id, color, gameover, gameovermessage, turn } from "../Store/Atoms/UtilityAtoms";
 import { positions } from "../Store/Atoms/PositionsAndCordsAtoms";
-
-const socket = io("https://back.zoanfruit.xyz");
+const socket = io("https://back.zoanfruit.xyz/");
 
 export function Connection() {
     const id = useRecoilValue(Id);

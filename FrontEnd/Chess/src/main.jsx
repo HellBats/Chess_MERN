@@ -11,13 +11,15 @@ import {
 import { ErrorPage } from './Components/NotFoundPage';
 import { RecoilRoot } from 'recoil';
 import React from 'react';
+import SignUp from './Routes/SignUp';
+import Login from './Routes/Login';
 
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>,
+    element: <Home/>,
     errorElement: <ErrorPage></ErrorPage>
   },
   {
@@ -29,8 +31,22 @@ const router = createBrowserRouter([
       </RecoilRoot>
   },
   {
+    path:"sign-up",
+    element:
+    <RecoilRoot>
+        <React.Suspense>
+          <SignUp></SignUp>
+        </React.Suspense>
+        </RecoilRoot>
+  },
+  {
     path:"login",
-    element:<div></div>
+    element:
+    <RecoilRoot>
+        <React.Suspense>
+          <Login></Login>
+        </React.Suspense>
+        </RecoilRoot>
   }
 ]);
 

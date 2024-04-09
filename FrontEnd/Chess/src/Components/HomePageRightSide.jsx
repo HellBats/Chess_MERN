@@ -6,7 +6,8 @@ export default function HomeRight()
     <>
         <div className="flex flex-col justify-center" >
             <div className="text-white text-6xl md:text-9xl text-center">Welcome to ZoanFruit Chess</div>
-            <div className="flex md:justify-end justify-center md:mr-24">
+            <div className="flex md:justify-between justify-center md:mr-24">
+            <img src={'src/assets/10123388.svg'} className="w-80 ml-16"></img>
                 <div>
                     <div className="text-white text-2xl text-center w-80 ">Play chess with other people online or 
                     challange your friends in different gamemodes</div>

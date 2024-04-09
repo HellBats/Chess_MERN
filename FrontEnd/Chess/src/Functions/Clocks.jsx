@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { clock_time, mytime,optime } from "../Store/Atoms/TimeAtoms";
-import { Id, color, gameover, gameovermessage, turn } from "../Store/Atoms/UtilityAtoms";
+import { Id, color, gameover, gameovermessage, turn,board_mounts} from "../Store/Atoms/UtilityAtoms";
 import { GameOverEvent } from "./FirstConnection";
 
 export function ControlTimer()
@@ -13,17 +13,20 @@ export function ControlTimer()
     const id = useRecoilValue(Id);
     const setGameOver = useSetRecoilState(gameover);
     const setGameOverMessage = useSetRecoilState(gameovermessage);
+    const board_mount = useRecoilValue(board_mounts)
     useEffect(() => {
-        if (mytime_.length === 0) {
-            setMytime(clock_times);
+        if(board_mount>1)
+        {
+            if (mytime_.length === 0) {
+                setMytime(clock_times);
+            }
+        
+            const timeoutId = setInterval(() => {
+                updateClockTime(turn_,color_,mytime_,setMytime,id,setGameOver,setGameOverMessage);
+            }, 1000);
+            return () => clearTimeout(timeoutId);
         }
-    
-        const timeoutId = setInterval(() => {
-            updateClockTime(turn_,color_,mytime_,setMytime,id,setGameOver,setGameOverMessage);
-        }, 1000);
-    
-        return () => clearTimeout(timeoutId);
-      }, [mytime_,turn_]); // Re-run the effect when mytime or turn changes
+      }, [mytime_,turn_,board_mount]); // Re-run the effect when mytime or turn changes
 }
 
 export function ControlOpTimer()
