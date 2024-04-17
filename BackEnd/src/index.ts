@@ -1,18 +1,20 @@
+import { Socket } from "socket.io";
 
 const path = require('path');
 const express = require("express");
 const cors = require('cors');
 const {Server} = require('socket.io');
-const {Color} = require('./Functions/ColorPicker.cjs')
-const {Rotate} = require('./Functions/BoardRotater.cjs')
-const { GenerateId,players,rooms } = require("./Functions/PlayersAndRooms.cjs");
+const {Color} = require('./Functions/ColorPicker')
+const {Rotate} = require('./Functions/BoardRotater')
+const { GenerateId,players,rooms } = require("./Functions/PlayersAndRooms");
 const http = require('http');
-const { router } = require("./Routes/index.cjs");
+const { router } = require("./Routes/index");
 
 
 const app = express();
 const server = http.createServer(app);
 app.use(cors());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/',router)
 const io = new Server(server,
@@ -23,9 +25,9 @@ const io = new Server(server,
 });
 
 
-io.on('connection',(socket)=>
+io.on('connection',(socket:Socket)=>
 {
-    socket.on('join',(playerId,clock_time)=>
+    socket.on('join',(playerId:string,clock_time:string)=>
     {
         if(players.includes(playerId))
         {
@@ -56,14 +58,14 @@ io.on('connection',(socket)=>
         for(let room of rooms)
         {
             if(room[1][0]==player){
-                io.to(room[0]).emit(room[2][0],Rotate({position}));
+                io.to(room[0]).emit(room[2][0],Rotate(position));
             }
             else if(room[2][0]==player){
-                io.to(room[0]).emit(room[1][0],Rotate({position}));
+                io.to(room[0]).emit(room[1][0],Rotate(position));
             }
         }
     })
-    socket.on('gameover',(msg)=>
+    socket.on('gameover',(msg:string)=>
     {
         console.log(rooms);
         for(let room of rooms)

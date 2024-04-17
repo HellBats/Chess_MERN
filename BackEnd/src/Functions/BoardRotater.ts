@@ -1,4 +1,4 @@
-function Rotate({position})
+export function Rotate(position:any)
 {
     for(let i=0;i<4;i++)
     {   
@@ -9,8 +9,3 @@ function Rotate({position})
     }
     return position;
 }
-
-
-
-
-module.exports = {Rotate}

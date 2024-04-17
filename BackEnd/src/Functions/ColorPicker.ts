@@ -1,5 +1,4 @@
-function Color(color)
-{
+export const Color = (color:boolean) =>{
     let position = [];
     if(color)
     {
@@ -31,4 +30,3 @@ function Color(color)
     }
     return position;
 }
-module.exports = {Color};
