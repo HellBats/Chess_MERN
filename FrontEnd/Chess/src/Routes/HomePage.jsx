@@ -1,5 +1,5 @@
-import TopBar from "../Components/TopBar"
-import HomeRight from '../Components/HomePageRightSide'
+import TopBar from "../Components/ui/TopBar"
+import HomeRight from '../Components/ui/HomePageRightSide'
 
 export default function Home()
 {

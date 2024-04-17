@@ -8,7 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 BackEnd/node_modules
-FrontEnd/node_modules
+FrontEnd/Chess/node_modules
 dist
 dist-ssr
 *.local

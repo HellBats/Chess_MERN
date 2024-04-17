@@ -1,4 +1,5 @@
 import {atom, selector} from 'recoil';
+import { Connection } from '../../Functions/ConnectionFunctions';
 
 
 export const color = atom({
@@ -51,12 +52,41 @@ export const gameovermessage = atom({
     default: 'hello',
 })
 
+export const show_password = atom({
+    key:'show_password',
+    default: false,
+})
+
+
+export const Username = atom({
+    key:'Username',
+    default: '',
+})
+
+export const Name = atom({
+    key:'Name',
+    default: '',
+})
+
+export const Email = atom({
+    key:'Email',
+    default: '',
+})
+
+export const Password= atom({
+    key:'Password',
+    default: '',
+})
+
+
+
+
 export const Id = selector({
     key:'Id',
     default:'',
     get: async () =>
     {
-        const response = await fetch('https://back.zoanfruit.xyz/getid');
+        const response = await fetch('https://back.zoanfruit.xyz/api/v1/user/getid');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
