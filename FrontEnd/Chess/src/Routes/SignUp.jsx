@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil"
 import { Email, Name, Password, Username, show_password } from "../Store/Atoms/UtilityAtoms"
-import ShowPassword from "../Components/ShowPassword";
+import ShowPassword from "../Components/ui/ShowPasswordEye";
 import { Signup } from "../Functions/SendData";
 
 export default function SignUp()

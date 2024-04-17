@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue} from "recoil";
 import {Id, checks} from "../Store/Atoms/UtilityAtoms"
 import { board_mounts,color } from "../Store/Atoms/UtilityAtoms";
 import { positions } from "../Store/Atoms/PositionsAndCordsAtoms";
-import { GameOverEvent } from "./FirstConnection";
+import { GameOverEvent } from "./ConnectionFunctions";
 
 
 export function GameConditions({setGameOver,setGameOverMessage})

@@ -1,9 +1,9 @@
-import TopBar from "../Components/TopBar"
-import StartGame from "../Components/StartGame"
+import TopBar from "../Components/ui/TopBar"
+import BoardGenerator from '../Components/DefaultBoardLayout'
 import { useRecoilValue } from "recoil"
 import { Id, start_game } from "../Store/Atoms/UtilityAtoms"
-import PlayControl from "../Components/PlayControl";
-import { JoinEvent } from "../Functions/FirstConnection";
+import PlayControl from "../Components/ui/PlayControl";
+import { JoinEvent } from "../Functions/ConnectionFunctions";
 import { clock_time } from "../Store/Atoms/TimeAtoms";
 
 
@@ -27,7 +27,7 @@ function Condor({startgame,id,clock_time_})
     if(startgame)
     {
         JoinEvent({id,clock_time_});
-        return <StartGame ></StartGame>
+        return <BoardGenerator></BoardGenerator>
     }
     else return <PlayControl></PlayControl>
 }

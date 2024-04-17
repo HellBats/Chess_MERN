@@ -1,5 +1,5 @@
 import { useRecoilValue} from "recoil";
-import {gameover, gameovermessage } from "../Store/Atoms/UtilityAtoms";
+import {gameover, gameovermessage } from "../../Store/Atoms/UtilityAtoms";
 
 export default function GameOver()
 {

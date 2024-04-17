@@ -1,41 +1,31 @@
 import {useRef} from "react";
-import Piece from "./Piece";
-import {Connection} from '../Functions/FirstConnection'
+import Piece from "./ui/Piece.jsx";
+import {Connection} from '../Functions/ConnectionFunctions.jsx'
 import { KingsAndRooks } from "../Functions/PieceLogic/CastlingLogic";
 import useSound from 'use-sound'
 import audio from '../assets/move-self.mp3'
 import HighlightUpdate from "../Functions/HighlightMoves";
-import { Promotion, usePawnFroms } from "../Functions/Promotion";
+import { usePawnFroms } from "../Functions/Promotion";
 import {GameConditions} from "../Functions/GameConditons";
-import { useRecoilValue,useSetRecoilState, useRecoilState } from "recoil";
-import { mytime, optime } from "../Store/Atoms/TimeAtoms";
-import HandleClicks from "./HandleClicks";
-import { highlight_move, pawnform,turn,promotions,Id, gameover, gameovermessage } from "../Store/Atoms/UtilityAtoms";
-import { positions,pawn_cords} from "../Store/Atoms/PositionsAndCordsAtoms";
-import GameOver from "./GameOver";
-import UserPanel from "./UserPanel";
-import {ControlOpTimer, ControlTimer} from "../Functions/Clocks.jsx"
-
+import { useRecoilValue,useSetRecoilState } from "recoil";
+import HandleClicks from "../Functions/HandleClicks.jsx";
+import { highlight_move, gameover, gameovermessage } from "../Store/Atoms/UtilityAtoms";
+import { positions} from "../Store/Atoms/PositionsAndCordsAtoms";
+import GameOver from "./ui/GameOver.jsx";
+import UserPanel from "./ui/UserPanel.jsx";
+import {ControlTimers} from "../Functions/Clocks.jsx"
+import PawnPromotion from "./ui/PawnPromotion.jsx";
 // Color value true means white else black
 export default function BoardGenerator() {
-  const my_time = useRecoilValue(mytime);
-  const op_time = useRecoilValue(optime);
-  const pawnforms = useRecoilValue(pawnform);
   const highlight_moves = useRecoilValue(highlight_move);
-  const setTurn = useSetRecoilState(turn);
-  const [position,setPosition] = useRecoilState(positions);
-  const [pawn_cord,setPawnCords] = useRecoilState(pawn_cords);
-  const setPawnsForms = useSetRecoilState(pawnform);
-  const setPromotion = useSetRecoilState(promotions);
-  const id = useRecoilValue(Id);
+  const position = useRecoilValue(positions);
   const setGameOver = useSetRecoilState(gameover); 
   const setGameOverMessage = useSetRecoilState(gameovermessage);
   const divRef = useRef(null);
   const [move_audio] = useSound(audio);
 
   Connection();
-  ControlTimer();
-  ControlOpTimer();
+  ControlTimers();
   HandleClicks({divRef});
   GameConditions({setGameOver,setGameOverMessage});
   HighlightUpdate({move_audio})
@@ -48,7 +38,7 @@ export default function BoardGenerator() {
       <div className="GameBoard mt-10 md:mt-0">
         <div className="z-1">
           <div className="flex justify-center">
-            <UserPanel my_time={op_time}></UserPanel>
+            <UserPanel my_time={0}></UserPanel>
           </div>
           <div className="flex justify-center">
             <div className="bg-[url('src/assets/CheesBoardPurple.png')] w-96 h-96 ml-3 bg-cover
@@ -79,16 +69,10 @@ export default function BoardGenerator() {
                   )
                   }
               </div>
-              <div className="md:w-16 ">
-                  {pawnforms.map(pawns =>
-                  {  
-                    return <img src={'src/assets/'+pawns+'.png'} key={pawns} onClick={()=>Promotion({pawns,
-                    setTurn,position,setPosition,pawn_cord,setPawnCords,setPawnsForms,setPromotion,id})}></img>
-                  })}
-              </div>
+              <PawnPromotion></PawnPromotion>
             </div>
             <div className="flex justify-center">
-              <UserPanel my_time={my_time} ></UserPanel>
+              <UserPanel my_time={1} ></UserPanel>
             </div>
           </div>
             

@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {Move} from "../Functions/MoveLogic";
+import {Move} from "./MoveLogic";
 import {useRecoilValue, useSetRecoilState, useRecoilState} from 'recoil'
 import { moves, pawn_cords,king_moves, positions, rook_move, old_positions} from '../Store/Atoms/PositionsAndCordsAtoms'
 import {Id, checks, color, promotions, turn} from '../Store/Atoms/UtilityAtoms'

@@ -1,5 +1,5 @@
 import {useRecoilValue, useSetRecoilState } from "recoil";
-import { Turn } from "../Functions/FirstConnection";
+import { Turn } from "./ConnectionFunctions";
 import {color, promotions} from "../Store/Atoms/UtilityAtoms";
 import { pawnform } from "../Store/Atoms/UtilityAtoms";
 import { useEffect } from "react";

@@ -1,6 +1,5 @@
-import TopBar from "../Components/TopBar"
-import HomeRight from '../Components/HomePageRightSide'
-import Footer from "../Components/Footer"
+import TopBar from "../Components/ui/TopBar"
+import HomeRight from '../Components/ui/HomePageRightSide'
 
 export default function Home()
 {
@@ -10,7 +9,6 @@ export default function Home()
         <div className='mt-20 flex justify-center'>
           <HomeRight/>
         </div>
-        <Footer/>
     </div>
   )
 }

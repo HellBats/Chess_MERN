@@ -1,4 +1,4 @@
-import { Turn } from "./FirstConnection";
+import { Turn } from "./ConnectionFunctions";
 import {CastleMoved} from "./PieceLogic/CastlingLogic"
 import Check from "./PieceLogic/Check"
 import ValidMoves from "./PieceLogic/MainLogic";

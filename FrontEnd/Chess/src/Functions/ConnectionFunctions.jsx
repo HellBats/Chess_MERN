@@ -1,27 +1,28 @@
 import { io } from "socket.io-client";
-import {useEffect} from "react";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
-import { Id, color, gameover, gameovermessage, turn } from "../Store/Atoms/UtilityAtoms";
+import {useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {Id, color, gameover, gameovermessage, turn } from "../Store/Atoms/UtilityAtoms";
 import { positions } from "../Store/Atoms/PositionsAndCordsAtoms";
+import { useEffect } from "react";
 const socket = io("https://back.zoanfruit.xyz/");
 
 export function Connection() {
-    const id = useRecoilValue(Id);
     const [colors,setColor] = useRecoilState(color);
+    const id = useRecoilValue(Id);
     const setTurn = useSetRecoilState(turn);
     const setPosition = useSetRecoilState(positions);
     const setGameOver = useSetRecoilState(gameover);
     const setGameOverMessage = useSetRecoilState(gameovermessage);
-    useEffect(() => {
-
-      // Attach event listeners
-        socket.on(id+'first',(res)=>{
+    
+    useEffect(()=>{
+      if (id.length==0) return;
+    // Attach event listeners
+      socket.on(id+'first',(res)=>{
           setPosition(res[0]);
           setColor(res[1]);
           setTurn(res[2]);
       })
 
-      socket.on(id,(res)=>
+      socket.on(id,(res)=> 
       {
         setPosition(res);
         setTurn(prev=>!prev);
@@ -34,14 +35,12 @@ export function Connection() {
         setGameOver(true);
         setGameOverMessage(msg);
       })
-
-      // Cleanup logic
-      return () => {
-        socket.off('move');
-        socket.off(id+'first');
+      return ()=>{
+        socket.off(id+'first')
+        socket.off(id)
         socket.off(id+'gameover')
-      };
-    }, [id]);
+      }
+    },[id])
   }
 
   export function Turn({id,new_position})

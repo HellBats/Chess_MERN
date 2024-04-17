@@ -5,20 +5,11 @@ const url = 'mongodb+srv://vishalgoyal452003:w0rmh01es@cluster0.nbks85v.mongodb.
 connect(url);
 
 const UserSchema = Schema({
-    FirstName:{
+    Name:{
         type:String,
         required:true,
         minLength:4,
         maxLength:20,
-        trim: true,
-        lowercase:true,
-    },
-    LastName:{
-        type:String,
-        required:true,
-        minLength:4,
-        maxLength:20,
-        trim: true,
         lowercase:true,
     },
     UserName:{

@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { clock_time, mytime,optime } from "../Store/Atoms/TimeAtoms";
 import { Id, color, gameover, gameovermessage, turn,board_mounts} from "../Store/Atoms/UtilityAtoms";
-import { GameOverEvent } from "./FirstConnection";
+import { GameOverEvent } from "./ConnectionFunctions";
 
-export function ControlTimer()
-{
+export const ControlTimers = ()=>{
     const [mytime_,setMytime] = useRecoilState(mytime);
+    const [optime_,setOptime] = useRecoilState(optime);
     const clock_times = useRecoilValue(clock_time);
     const color_ = useRecoilValue(color);
     const turn_ = useRecoilValue(turn);
@@ -17,44 +17,22 @@ export function ControlTimer()
     useEffect(() => {
         if(board_mount>1)
         {
-            if (mytime_.length === 0) {
+            if (mytime_.length == 0) {
                 setMytime(clock_times);
+                setOptime(clock_times);
             }
         
             const timeoutId = setInterval(() => {
-                updateClockTime(turn_,color_,mytime_,setMytime,id,setGameOver,setGameOverMessage);
+                if(((turn_ && color_) || (!turn_ && !color_)))
+                {updateClockTime(mytime_,setMytime,id,setGameOver,setGameOverMessage);}
+                else{updateOpClockTime(optime_,setOptime,id,setGameOver,setGameOverMessage);}
             }, 1000);
             return () => clearTimeout(timeoutId);
         }
-      }, [mytime_,turn_,board_mount]); // Re-run the effect when mytime or turn changes
+      }, [mytime_,optime_,turn_,board_mount]); // Re-run the effect when mytime or turn changes
 }
 
-export function ControlOpTimer()
-{
-    const [optime_,setOptime] = useRecoilState(optime);
-    const clock_times = useRecoilValue(clock_time);
-    const color_ = useRecoilValue(color);
-    const turn_ = useRecoilValue(turn);
-    const id = useRecoilValue(Id);
-    const setGameOver = useSetRecoilState(gameover);
-    const setGameOverMessage = useSetRecoilState(gameovermessage);
-
-    useEffect(() => {
-        if (optime_.length === 0) {
-            setOptime(clock_times);
-        }
-    
-        const timeoutId = setInterval(() => {
-            updateOpClockTime(turn_,color_,optime_,setOptime,id,setGameOver,setGameOverMessage);
-        }, 1000);
-    
-        return () => clearTimeout(timeoutId);
-      }, [optime_,turn_]); // Re-run the effect when mytime or turn changes
-}
-
-
-function updateClockTime(turn,color,mytime,setMytime,id,setGameOver,setGameOverMessage) {
-    if (!((turn && color) || (!turn && !color))) return; // Stop the timer if turn is false
+function updateClockTime(mytime,setMytime,id,setGameOver,setGameOverMessage) {
 
     let new_time = mytime.slice(); // Make a copy of the clock_time array
     if (new_time[1] === 0) 
@@ -74,8 +52,7 @@ function updateClockTime(turn,color,mytime,setMytime,id,setGameOver,setGameOverM
     setMytime(new_time); // Update state with the new time
     }
 
-function updateOpClockTime(turn,color,optime,setOptime,id,setGameOver,setGameOverMessage) {
-    if ((turn && color) || (!turn && !color)) return; // Stop the timer if turn is false
+function updateOpClockTime(optime,setOptime,id,setGameOver,setGameOverMessage) {
 
     let new_time = optime.slice(); // Make a copy of the clock_time array
     if (new_time[1] === 0) 

@@ -1,7 +1,7 @@
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { clock_time, time_frames } from '../Store/Atoms/TimeAtoms';
-import { start_game } from '../Store/Atoms/UtilityAtoms';
-import { ShowTimeFrames,HideTimeFrames,StartGame } from '../Functions/TimeFrames';
+import { clock_time, time_frames } from '../../Store/Atoms/TimeAtoms';
+import { start_game } from '../../Store/Atoms/UtilityAtoms';
+import { ShowTimeFrames,HideTimeFrames,StartGame } from '../../Functions/TimeFrames';
 
 
 export default function PlayControl()
