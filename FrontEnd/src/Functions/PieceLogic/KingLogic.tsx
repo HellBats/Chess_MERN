@@ -11,7 +11,7 @@ interface KingProps
     king_move:boolean
 }
 
-export default function King({prevPosition,cords,color,rook_moves,king_move}:KingProps):event
+export default function King({prevPosition,cords,rook_moves,king_move}:KingProps):event
 {
     const [rank,file] = [cords[0][0],cords[0][1]];
     const [rank_to,file_to] = [cords[1][0],cords[1][1]];

@@ -1,7 +1,28 @@
-export default function Check(position,color):boolean
+import { WhitePieceBoard } from "../Racist";
+
+interface CheckProps
+{
+    position:WhitePieceBoard,
+    color:boolean
+}
+
+interface FindKingProps
+{
+    position:WhitePieceBoard,
+    king:string
+}
+
+interface PieceCheckProps
+{
+    king:string,
+    position:WhitePieceBoard,
+    rank:number,
+    file:number
+}
+export default function Check({position,color}:CheckProps):boolean
 {
     const king = (color?'wk':'bk');
-    const [rank,file] = FindKing(position,king);
+    const [rank,file] = FindKing({position,king});
     if(CheckForPawn({king,position,rank,file}) ||
     CheckForKnight({king,position,rank,file}) ||
     CheckForRook({king,position,rank,file}) ||
@@ -11,7 +32,7 @@ export default function Check(position,color):boolean
     return false;
 }
 
-function FindKing(position,king)
+function FindKing({position,king}:FindKingProps)
 {
     for(let i=0;i<8;i++)
     {
@@ -23,16 +44,16 @@ function FindKing(position,king)
     return [];
 }
 
-function CheckForPawn({king,position,rank,file})
+function CheckForPawn({king,position,rank,file}:PieceCheckProps)
 {   
     const pawn_color = king=='wk'?'bp':'wp';
     const ranks = [rank-1];
     const files = [file-1,file+1];
     const valid_ranks = ranks.filter(value => (value<8 && value>0));
     const valid_files = files.filter(value=> (value<9 && value>0));
-    for(var i in valid_ranks)
+    for(const i in valid_ranks)
     {
-        for(var j in valid_files)
+        for(const j in valid_files)
         {
             const rankIndex = valid_ranks[i];
             const fileIndex = valid_files[j];
@@ -45,7 +66,7 @@ function CheckForPawn({king,position,rank,file})
     return false;
 }
 
-function CheckForKnight({king,position,rank,file})
+function CheckForKnight({king,position,rank,file}:PieceCheckProps)
 {
     const knight_color = king=='wk'?'bn':'wn';
     const ranks1 = [rank-1,rank+1];
@@ -57,9 +78,9 @@ function CheckForKnight({king,position,rank,file})
     const valid_ranks2 = ranks2.filter(value => (value<9 && value>0));
     const valid_files2 = files2.filter(value=> (value<9 && value>0));
     // console.log(valid_ranks1,valid_ranks2,valid_files1,valid_files2);
-    for(let i in valid_ranks1)
+    for(const i in valid_ranks1)
     {
-        for(let j in valid_files2)
+        for(const j in valid_files2)
         {
             const rankIndex = valid_ranks1[i];
             const fileIndex = valid_files2[j];
@@ -69,9 +90,9 @@ function CheckForKnight({king,position,rank,file})
             }
         }
     }
-    for(let i in valid_ranks2)
+    for(const i in valid_ranks2)
     {
-        for(let j in valid_files1)
+        for(const j in valid_files1)
         {
             const rankIndex = valid_ranks2[i];
             const fileIndex = valid_files1[j];
@@ -84,7 +105,7 @@ function CheckForKnight({king,position,rank,file})
     return false;
 }
 
-function CheckForRook({king,position,rank,file})
+function CheckForRook({king,position,rank,file}:PieceCheckProps)
 {
     const rook_color = king=='wk'?'br':'wr';
     for(let i = rank;i<8;i++)
@@ -110,7 +131,7 @@ function CheckForRook({king,position,rank,file})
     return false;
 }
 
-function CheckForBishop({king,position,rank,file})
+function CheckForBishop({king,position,rank,file}:PieceCheckProps)
 {
     const bishop_color = king=='wk'?'bb':'wb';
     for(let i = rank,j=file;i<8 && j<8;i++,j++)
@@ -136,7 +157,7 @@ function CheckForBishop({king,position,rank,file})
     return false;
 }
 
-function CheckForQueen({king,position,rank,file})
+function CheckForQueen({king,position,rank,file}:PieceCheckProps)
 {
     const queen_color = king=='wk'?'bq':'wq';
     for(let i = rank;i<8;i++)
@@ -182,16 +203,16 @@ function CheckForQueen({king,position,rank,file})
     return false;
 }
 
-function CheckForKing({king,position,rank,file})
+function CheckForKing({king,position,rank,file}:PieceCheckProps)
 {   
     const king_color = king=='wk'?'bk':'wk';
     const ranks = [rank-1,rank+1,rank];
     const files = [file-1,file+1,file];
     const valid_ranks = ranks.filter(value => (value<9 && value>0));
     const valid_files = files.filter(value=> (value<9 && value>0));
-    for(let i in valid_ranks)
+    for(const i in valid_ranks)
     {
-        for(let j in valid_files)
+        for(const j in valid_files)
         {
             const rankIndex = valid_ranks[i];
             const fileIndex = valid_files[j];

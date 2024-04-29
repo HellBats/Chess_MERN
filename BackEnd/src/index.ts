@@ -12,15 +12,15 @@ const { router } = require("./Routes/index");
 
 
 const app = express();
-const server = http.createServer(app);
 app.use(cors());
+const server = http.createServer(app);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/',router)
 const io = new Server(server,
     {
         cors:{
-            origin: "*"
+            origin: "https://front.zoanfruit.xyz"
         }
 });
 
@@ -114,4 +114,4 @@ io.on('connection',(socket:Socket)=>
 });
 
 
-server.listen(3001,()=>{console.log("Started Listening...")});
+server.listen(3000,()=>{console.log("Started Listening...")});

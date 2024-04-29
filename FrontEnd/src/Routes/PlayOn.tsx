@@ -1,10 +1,10 @@
 import TopBar from "../Components/ui/TopBar"
-import StartGame from "../Components/StartGame"
 import { useRecoilValue } from "recoil"
 import { Id, start_game } from "../Store/Atoms/UtilityAtoms"
 import PlayControl from "../Components/ui/PlayControl";
 import { JoinEvent } from "../hooks/SocketConnection";
 import { clock_time } from "../Store/Atoms/TimeAtoms";
+import BoardGenerator from "../Components/Board";
 
 interface PlayInterfaceProps{
     startgame:boolean,
@@ -31,7 +31,7 @@ function PlayInterface({startgame,id,clock_time_}:PlayInterfaceProps)
     if(startgame)
     {
         JoinEvent({id,clock_time_});
-        return <StartGame ></StartGame>
+        return <BoardGenerator></BoardGenerator>
     }
     else return <PlayControl></PlayControl>
 }

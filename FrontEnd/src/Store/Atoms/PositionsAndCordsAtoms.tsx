@@ -8,7 +8,7 @@ export const positions = atom({
 
 export const moves = atom({
     key: 'moves',
-    default:[[-1]] as [[number]],
+    default:[[-1,-1],[-1,-1]] as [[number,number],[number,number]],
 });
 
 export const king_moves = atom({
@@ -33,5 +33,5 @@ export const previous_positions = atom({
 
 export const pawn_cords = atom({
     key: 'pawn_codrds',
-    default:[] as [],
+    default:[] as number[],
 })

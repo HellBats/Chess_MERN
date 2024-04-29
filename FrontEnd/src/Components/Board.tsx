@@ -1,4 +1,4 @@
-import {useRef} from "react";
+import { useRef} from "react";
 import Piece from "./ui/Piece.tsx";
 import {useConnection} from '../hooks/SocketConnection'
 import { useRecoilValue,useSetRecoilState, useRecoilState } from "recoil";
@@ -8,6 +8,7 @@ import { positions,pawn_cords} from "../Store/Atoms/PositionsAndCordsAtoms";
 import GameOver from "./ui/GameOverCard";
 import UserPanel from "./ui/UserPanel";
 import {useControlTimers} from "../hooks/Clocks.tsx"
+import { useMovetoPiece } from "../hooks/useUpdatePosition.tsx";
 
 // Color value true means white else black
 export default function BoardGenerator() {
@@ -23,7 +24,8 @@ export default function BoardGenerator() {
 
   const {turn_,game_over,gameover_message} = useConnection();
   const [mytime_,optime_] = useControlTimers();
-  const moves = useHandleClicks({divRef});
+  const cords = useHandleClicks({divRef});
+  useMovetoPiece(cords);
 
    let key = 0;
     return (
