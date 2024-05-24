@@ -1,32 +1,47 @@
-import { useRef} from "react";
+import {useEffect, useRef} from "react";
 import Piece from "./ui/Piece.tsx";
 import {useConnection} from '../hooks/SocketConnection'
 import { useRecoilValue,useSetRecoilState, useRecoilState } from "recoil";
 import useHandleClicks from "../hooks/useHandleClicks.tsx";
-import { highlight_move, pawnform,turn,promotions,Id} from "../Store/Atoms/UtilityAtoms";
+import { highlight_move, pawnform,turn,promotions,Id, board_mounts, gameover, gameovermessage, color} from "../Store/Atoms/UtilityAtoms";
 import { positions,pawn_cords} from "../Store/Atoms/PositionsAndCordsAtoms";
 import GameOver from "./ui/GameOverCard";
 import UserPanel from "./ui/UserPanel";
 import {useControlTimers} from "../hooks/Clocks.tsx"
 import { useMovetoPiece } from "../hooks/useUpdatePosition.tsx";
+import { BlackBoard, WhiteBoard } from "../Functions/Racist.tsx";
 
 // Color value true means white else black
 export default function BoardGenerator() {
   const pawnforms = useRecoilValue(pawnform);
   const highlight_moves = useRecoilValue(highlight_move);
-  const setTurn = useSetRecoilState(turn);
+  const [turn_,setTurn] = useRecoilState(turn);
   const [position,setPosition] = useRecoilState(positions);
   const [pawn_cord,setPawnCords] = useRecoilState(pawn_cords);
   const setPawnsForms = useSetRecoilState(pawnform);
   const setPromotion = useSetRecoilState(promotions);
+  const [boardmounts,setBoardMounts] = useRecoilState(board_mounts);
   const id = useRecoilValue(Id);
   const divRef = useRef(null);
+  const game_over = useRecoilValue(gameover);
+  const gameover_message = useRecoilValue(gameovermessage);
+  const colors  = useRecoilValue(color);
+  useControlTimers();
+  useConnection();
+  useHandleClicks({divRef});
+  useMovetoPiece();
 
-  const {turn_,game_over,gameover_message} = useConnection();
-  const [mytime_,optime_] = useControlTimers();
-  const cords = useHandleClicks({divRef});
-  useMovetoPiece(cords);
-
+  useEffect(()=>{
+    if(colors) {setPosition(()=>{
+      return WhiteBoard() as [[[string,number,number]]]
+      });
+    }
+  },[colors]);
+  useEffect(()=>{
+    setBoardMounts((prev:number)=>{
+      return prev+1;
+    })
+  },[position]);
    let key = 0;
     return (
       <>

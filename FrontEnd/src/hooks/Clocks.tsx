@@ -5,8 +5,6 @@ import { Id, color, gameover, gameovermessage, turn,board_mounts} from "../Store
 import { GameOverEvent } from "./SocketConnection";
 
 
-
-
 export const useControlTimers = ()=>{
     const [mytime_,setMytime] = useRecoilState(mytime);
     const [optime_,setOptime] = useRecoilState(optime);
@@ -16,11 +14,11 @@ export const useControlTimers = ()=>{
     const id = useRecoilValue(Id);
     const setGameOver = useSetRecoilState(gameover);
     const setGameOverMessage = useSetRecoilState(gameovermessage);
-    const board_mount = useRecoilValue(board_mounts)
+    const board_mount = useRecoilValue(board_mounts);
     useEffect(() => {
-        if(board_mount>1)
+        if(board_mount>2)
         {
-            if (mytime_.length == 0) {
+            if (mytime_[0]==0) {
                 setMytime(clock_times);
                 setOptime(clock_times);
             }
@@ -33,7 +31,6 @@ export const useControlTimers = ()=>{
             return () => clearTimeout(timeoutId);
         }
       }, [mytime_,optime_,turn_,board_mount]); // Re-run the effect when mytime or turn changes
-      return [mytime_,optime_]
     }
 
 function updateClockTime(mytime:number[],setMytime:SetterOrUpdater<number[]>,id:string,setGameOver:SetterOrUpdater<boolean>,

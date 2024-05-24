@@ -9,8 +9,11 @@ lerna-debug.log*
 
 BackEnd/node_modules
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 FrontEnd/node_modules
 =======
+=======
+>>>>>>> Stashed changes
 BackEnd/src
 FrontEnd/Chess/node_modules
 >>>>>>> Stashed changes

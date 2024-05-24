@@ -4,8 +4,7 @@ const path = require('path');
 const express = require("express");
 const cors = require('cors');
 const {Server} = require('socket.io');
-const {Color} = require('./Functions/ColorPicker')
-const {Rotate} = require('./Functions/BoardRotater')
+const {Color} = require('./Functions/ColorPicker');
 const { GenerateId,players,rooms } = require("./Functions/PlayersAndRooms");
 const http = require('http');
 const { router } = require("./Routes/index");
@@ -20,7 +19,7 @@ app.use('/api/v1/',router)
 const io = new Server(server,
     {
         cors:{
-            origin: "https://front.zoanfruit.xyz"
+            origin: "*"
         }
 });
 
@@ -34,7 +33,7 @@ io.on('connection',(socket:Socket)=>
             let space_in_room = false; 
             for(let room of rooms)
             {
-                if(room[2].length==0 && clock_time==room[3])
+                if(room[2].length==0 && clock_time==room[3] && room[1][0] != playerId)
                 {
                     space_in_room = true;
                     room[2] = [playerId,socket.id];
@@ -47,7 +46,7 @@ io.on('connection',(socket:Socket)=>
             }
             if(!space_in_room)
             {
-                let roomID = GenerateId(6);
+                const roomID = GenerateId(6);
                 rooms.push([roomID,[playerId,socket.id],[],clock_time]);
                 socket.join(roomID);
             }
@@ -58,10 +57,12 @@ io.on('connection',(socket:Socket)=>
         for(let room of rooms)
         {
             if(room[1][0]==player){
-                io.to(room[0]).emit(room[2][0],Rotate(position));
+                io.to(room[0]).emit(room[2][0],'a');
+                break;
             }
             else if(room[2][0]==player){
-                io.to(room[0]).emit(room[1][0],Rotate(position));
+                io.to(room[0]).emit(room[1][0],'b');
+                break;
             }
         }
     })

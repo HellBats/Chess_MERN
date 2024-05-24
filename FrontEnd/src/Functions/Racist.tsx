@@ -1,4 +1,3 @@
-
 export type WhitePieceBoard = Array<Array<Array<string | number>>>;
 export type BlackPieceBoard = Array<Array<Array<string | number>>>;
 
@@ -24,7 +23,7 @@ export const EmptyBoard = () :WhitePieceBoard=>{
 };
 
 export const WhiteBoard = () :WhitePieceBoard=>{
-    const position = 
+    const position:WhitePieceBoard = 
     [
       [['br',1,1], ['bn',1,2], ['tr',1,3], ['bq',1,4], ['bk',1,5], ['bb',1,6], ['bn',1,7], ['br',1,8]],
       [['bp',2,1], ['bp',2,2], ['wp',2,3], ['bp',2,4], ['bp',2,5], ['bp',2,6], ['bp',2,7], ['bp',2,8]],
@@ -39,7 +38,7 @@ export const WhiteBoard = () :WhitePieceBoard=>{
 }
 
 export const BlackBoard = () :BlackPieceBoard=>{
-    const position = 
+    const position:BlackPieceBoard = 
     [
       [['wr',1,1], ['wn',1,2], ['wb',1,3], ['wk',1,4], ['wq',1,5], ['wb',1,6], ['wn',1,7], ['wr',1,8]],
       [['wp',2,1], ['wp',2,2], ['wp',2,3], ['wp',2,4], ['wp',2,5], ['wp',2,6], ['wp',2,7], ['wp',2,8]],

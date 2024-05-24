@@ -24,25 +24,11 @@ export default function PlayControl()
                     <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
                 </div>
-
-
                 {timeframes.map(timeframe=>
-                {
-
-                    return <div key={timeframe[0]}>
-                        <img src={'src/assets/'+timeframe[0]+'.png'} className='w-7 h-7'></img>
-                        <div className='w-80 flex flex-row'>
-                            <div className='w-36 text-center bg-black opacity-30 text-white p-2 backdrop-blur-sm m-2
-                            rounded-md'  onClick=
-                            {()=>HideTimeFrames({timeframe,number:1,SetClockTime})}>
-                                {timeframe[1]+'min'}</div>
-                            <div className='w-36 text-center bg-black opacity-30 text-white p-2 backdrop-blur-sm m-2
-                            rounded-md'  onClick=
-                            {()=>HideTimeFrames({timeframe,number:2,SetClockTime})}>
-                                {timeframe[2]+'min'}</div>    
-                        </div>
-                    </div>
-                })}
+                    {
+                        return TimeFrame({timeframe,SetClockTime});
+                    })
+                }
                 <div className='flex justify-center'>
                     <div className='text-white text-center bg-lime-300 w-60 h-15 rounded-md text-4xl p-1 shadow-md 
                         shadow-lime-200 mt-5' onClick={()=>StartGame({setStartGame})}><h3>Play</h3></div>
@@ -51,4 +37,28 @@ export default function PlayControl()
         </div>
         </>
     )
+}
+
+function TimeFrame({timeframe,SetClockTime})
+{
+    if(timeframe[1]==0)
+    {
+        return null
+    }
+    else
+    {
+        return <div key={timeframe[0]}>
+                    <img src={'src/assets/'+timeframe[0]+'.png'} className='w-7 h-7'></img>
+                    <div className='w-80 flex flex-row'>
+                        <div className='w-36 text-center bg-black opacity-30 text-white p-2 backdrop-blur-sm m-2
+                        rounded-md'  onClick=
+                        {()=>HideTimeFrames({timeframe,number:1,SetClockTime})}>
+                            {timeframe[1]+'min'}</div>
+                        <div className='w-36 text-center bg-black opacity-30 text-white p-2 backdrop-blur-sm m-2
+                        rounded-md'  onClick=
+                        {()=>HideTimeFrames({timeframe,number:2,SetClockTime})}>
+                            {timeframe[2]+'min'}</div>    
+                    </div>
+                </div>
+    }
 }

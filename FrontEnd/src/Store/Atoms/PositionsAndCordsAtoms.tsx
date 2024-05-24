@@ -1,4 +1,4 @@
-import {EmptyBoard} from "../../Functions/Racist";
+import { EmptyBoard} from "../../Functions/Racist";
 import {atom} from 'recoil';
 
 export const positions = atom({
